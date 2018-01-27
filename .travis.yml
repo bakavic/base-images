@@ -19,7 +19,7 @@ jobs:
   include:
     - stage: publish
       env:
-        - IMAGE_NAME: node-8
+        - IMAGE_NAME: node8
       script:
         - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}";
         - |
