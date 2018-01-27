@@ -19,9 +19,36 @@ jobs:
   include:
     - stage: publish
       env:
+        - IMAGE_NAME: node4
+      script:
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v4.x";
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+          fi;
+    - stage: publish
+      env:
+        - IMAGE_NAME: node6
+      script:
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v6.x";
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+          fi;
+    - stage: publish
+      env:
         - IMAGE_NAME: node8
       script:
-        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}";
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v8.x";
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+          fi;
+    - stage: publish
+      env:
+        - IMAGE_NAME: node9
+      script:
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v9.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
             ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
