@@ -2,7 +2,7 @@
 CURR_DIR=$(dirname $0);
 IMAGE_URL=$1
 IMAGE_TAG=$2;
-DOCKERFILE_PATH=$3;
+BUILD_CONTEXT=$3;
 BUILD_ARGS=$4;
 
 if [ "${IMAGE_URL}" = "" ]; then
@@ -23,12 +23,12 @@ else
   ADDITIONAL_BUILD_ARGS="";
 fi;
 
-if [ "${DOCKERFILE_PATH}" = "" ]; then
-  DOCKERFILE_PATH="${CURR_DIR}/../${IMAGE_TAG}/Dockerfile";
+if [ "${BUILD_CONTEXT}" = "" ]; then
+  BUILD_CONTEXT="${CURR_DIR}/../${IMAGE_TAG}/Dockerfile";
 fi;
 
 docker build \
   ${ADDITIONAL_BUILD_ARGS} \
-  --file ${DOCKERFILE_PATH} \
+  --file ${BUILD_CONTEXT}/Dockerfile \
   --tag "${NEXT_TAG}" \
-  ${CURR_DIR}/../${IMAGE_TAG};
+  ${BUILD_CONTEXT};
