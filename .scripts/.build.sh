@@ -31,4 +31,4 @@ docker build \
   ${ADDITIONAL_BUILD_ARGS} \
   --file ${BUILD_CONTEXT}/Dockerfile \
   --tag "${NEXT_TAG}" \
-  ${BUILD_CONTEXT};
+  ${BUILD_CONTEXT} | grep 'install'
