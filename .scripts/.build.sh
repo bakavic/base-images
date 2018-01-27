@@ -2,14 +2,16 @@
 CURR_DIR=$(dirname $0);
 IMAGE_URL=$1
 IMAGE_TAG=$2;
-BUILD_ARGS=$3;
+DOCKERFILE_PATH=$3;
+BUILD_ARGS=$4;
+
 if [ "${IMAGE_URL}" = "" ]; then
   printf "\n\e[31m\e[1m[!] Specify the namspace to build as the first argument.\e[0m\n";
   exit 1;
 fi;
 
 if [ "${IMAGE_TAG}" = "" ]; then
-  printf "\n\e[31m\e[1m[!] Specify the image (directory name) to build as the second argument.\e[0m\n";
+  printf "\n\e[31m\e[1m[!] Specify the image tag to build as the second argument.\e[0m\n";
   exit 1;
 fi;
 
@@ -21,8 +23,12 @@ else
   ADDITIONAL_BUILD_ARGS="";
 fi;
 
+if [ "${DOCKERFILE_PATH}" = "" ]; then
+  DOCKERFILE_PATH="${CURR_DIR}/../${IMAGE_TAG}/Dockerfile";
+fi;
+
 docker build \
   ${ADDITIONAL_BUILD_ARGS} \
-  --file ${CURR_DIR}/../${IMAGE_TAG}/Dockerfile \
+  --file ${DOCKERFILE_PATH} \
   --tag "${NEXT_TAG}" \
   ${CURR_DIR}/../${IMAGE_TAG};

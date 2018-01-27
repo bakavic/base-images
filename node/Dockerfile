@@ -4,6 +4,7 @@ LABEL maintainer="dev@joeir.net" \
       version="1.0.0" \
       description="A minimal Node + Yarn base image to work with."
 ARG NODE_CODE="v9.x"
+ARG NODE_BUILD_FLAGS=""
 ENV INSTALL_PATH=/tmp
 ENV APK_TO_INSTALL="bash curl gcc g++ make python linux-headers binutils-gold libstdc++ gnupg" \
     APK_TO_REMOVE="bash curl gcc g++ make python binutils-gold gnupg" \
@@ -66,7 +67,6 @@ RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
     && make install \
     && chmod +x /usr/bin/version-info \
     && apk del ${APK_TO_REMOVE} \
-    && apk add --no-cache yarn \
     && rm -rf ${PATHS_TO_REMOVE} \
     && mkdir /app
 WORKDIR /app

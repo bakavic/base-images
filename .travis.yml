@@ -9,7 +9,7 @@ notifications:
   email:
     - dev@joeir.net
 stages:
-  - publish
+  - build_publish
   - release
 before_script:
   - docker login -u "${DH_USERNAME}" -p "${DH_PASSWORD}";
@@ -17,41 +17,35 @@ after_script:
   - docker logout
 jobs:
   include:
-    - stage: publish
+    - stage: build_publish
       env:
         - IMAGE_NAME: node4
+        - NODE_MAJOR_VERSION: 4
       script:
-        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v4.x";
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "./node/Dockerfile" "NODE_CODE=v${NODE_MAJOR_VERSION}.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./node/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
-    - stage: publish
+    - stage: build_publish
       env:
         - IMAGE_NAME: node6
+        - NODE_MAJOR_VERSION: 6
       script:
-        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v6.x";
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "./node/Dockerfile" "NODE_CODE=v${NODE_MAJOR_VERSION}.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./node/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
-    - stage: publish
+    - stage: build_publish
       env:
         - IMAGE_NAME: node8
+        - NODE_MAJOR_VERSION: 8
       script:
-        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v8.x";
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "./node/Dockerfile" "NODE_CODE=v${NODE_MAJOR_VERSION}.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
-          fi;
-    - stage: publish
-      env:
-        - IMAGE_NAME: node9
-      script:
-        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v9.x";
-        - |
-          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}"./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./node/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
     - stage: release
       env:
