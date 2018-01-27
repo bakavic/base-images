@@ -24,7 +24,7 @@ jobs:
         - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v4.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
     - stage: publish
       env:
@@ -33,7 +33,7 @@ jobs:
         - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v6.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
     - stage: publish
       env:
@@ -42,7 +42,7 @@ jobs:
         - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v8.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
     - stage: publish
       env:
@@ -51,7 +51,7 @@ jobs:
         - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "NODE_CODE=v9.x";
         - |
           if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}"./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
           fi;
     - stage: release
       env:
