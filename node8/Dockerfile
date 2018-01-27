@@ -56,7 +56,6 @@ RUN gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys \
     && apk del ${APK_TO_REMOVE} \
     && apk add --no-cache yarn \
     && rm -rf ${PATHS_TO_REMOVE} \
-    && npm i -g yarn \
     && mkdir /app
 WORKDIR /app
 USER root
