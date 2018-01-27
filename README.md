@@ -10,16 +10,21 @@ https://hub.docker.com/r/govtechsg/base-images
 
 ## Catalog (Alphabetical Order)
 
-- Node.js (`node-*`)
+- Node.js (`node*`)
 
 ### Release Notes
 The images are found in the [DockerHub registry](https://hub.docker.com/r/govtechsg/base-images), and the names of the different types of images are added as a tag. For example given a type of image called `xyz`, it will be available under the repository URL `govtechsg/base-images:xyz-latest`. Specific versions can be found in the [DockerHub Tags page](https://hub.docker.com/r/govtechsg/base-images/tags/)
 
 ### Usage/Description
 
-#### Node 8 (`node-8`)
-Canonical Tag: `node-<NODE_VERSION>`  
-Latest URL: `govtechsg/base-images:node-8-latest`
+#### Node (`node*`)
+Canonical Tag: `node*-<NODE_VERSION>`  
+Latest URL: `govtechsg/base-images:node*-latest`
+
+The `*` is available for versions of Node which satisfy the following criteria:
+
+1. is an LTS release
+2. is the latest non-LTS release
 
 ##### Notes
 Generally compiled Node.js binary that comes with Yarn.
