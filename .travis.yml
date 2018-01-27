@@ -1,0 +1,46 @@
+sudo: required
+language: bash
+services:
+  - docker
+branches:
+  only:
+    - master
+notifications:
+  email:
+    - dev@joeir.net
+stages:
+  - publish
+  - release
+before_script:
+  - docker login -u "${DH_USERNAME}" -p "${DH_PASSWORD}";
+after_script:
+  - docker logout
+jobs:
+  include:
+    - stage: publish
+      env:
+        - IMAGE_NAME: node-8
+      script:
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}";
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            ./${IMAGE_NAME}/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+          fi;
+    - stage: release
+      env:
+        - TO: github
+      script:
+        - set -e;
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            git checkout ${TRAVIS_BRANCH};
+            COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%B");
+            if [[ "${COMMIT_MESSAGE}" == *"[major release]"* ]]; then
+              ./.scripts/versioning/iterate major -i -q;
+            elif [[ "${COMMIT_MESSAGE}" == *"[minor release]"* ]]; then
+              ./.scripts/versioning/iterate minor -i -q;
+            else
+              ./.scripts/versioning/iterate -i -q;
+            fi;
+            git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/govtechsg/base-images.git --tags;
+          fi;
