@@ -19,7 +19,7 @@ jobs:
   include:
     - stage: build_publish
       env:
-        - IMAGE_NAME: go1
+        - IMAGE_NAME: go
       script:
         - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "./go";
         - |

@@ -3,12 +3,12 @@ FROM alpine:${ALPINE_VERSION}
 LABEL maintainer="dev@joeir.net" \
       version="1.0.0" \
       description="A minimal Go base image to build Go applications with."
+ARG GO_VERSION="go1.9.3"
 ENV APK_TO_INSTALL="bash curl git gcc g++ make linux-headers binutils-gold gnupg" \
     APK_TO_REMOVE="bash curl git gcc g++ make linux-headers binutils-gold gnupg" \
     GO_REPO_URL="https://go.googlesource.com/go" \
-    GO_VERSION="go1.9.3" \
     GO_VERSION_LAST_C_TOOLCHAIN="go1.4" \
-    GOROOT_BOOTSTRAP="/usr/lib/go" \
+    GOROOT_BOOTSTRAP="/usr/local/go" \
     GOPATH="/app" \
     PATHS_TO_REMOVE="\
       /tmp/* \
@@ -19,6 +19,7 @@ ENV APK_TO_INSTALL="bash curl git gcc g++ make linux-headers binutils-gold gnupg
 WORKDIR /tmp
 COPY ./version-info /usr/bin/
 RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
+    && curl -sSL https://golang.org/dl/ | egrep "go[0-9]+\.[0-9]+\.[0-9]+" | grep "div class=\"toggleVisible" | head -n 1 | cut -d ' ' -f 3 | cut -d '"' -f 2 > /tmp/go_version \
     && git clone ${GO_REPO_URL} \
     && cp -r go go1.4 \
     && cd /tmp/go1.4/src \
@@ -26,7 +27,7 @@ RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
     && ./make.bash \
     && cd /tmp/go/src \
     && mv /tmp/go1.4 ${GOROOT_BOOTSTRAP} \
-    && git checkout ${GO_VERSION} \
+    && git checkout $(cat /tmp/go_version) \
     && ./make.bash \
     && rm -rf ${GOROOT_BOOTSTRAP} \
     && mv /tmp/go ${GOROOT_BOOTSTRAP} \
