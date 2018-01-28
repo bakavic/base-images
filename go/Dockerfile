@@ -3,8 +3,8 @@ FROM alpine:${ALPINE_VERSION}
 LABEL maintainer="dev@joeir.net" \
       version="1.0.0" \
       description="A minimal Go base image to work with."
-ENV APK_TO_INSTALL="bash curl git gcc make linux-headers binutils-gold gnupg" \
-    APK_TO_REMOVE="bash curl git gcc make binutils-gold gnupg" \
+ENV APK_TO_INSTALL="bash curl git gcc g++ make linux-headers binutils-gold gnupg" \
+    APK_TO_REMOVE="bash curl git gcc g++ make binutils-gold gnupg" \
     GO_REPO_URL="https://go.googlesource.com/go" \
     GO_VERSION="go1.9.3" \
     GO_VERSION_LAST_C_TOOLCHAIN="go1.4" \
