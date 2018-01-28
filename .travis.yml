@@ -19,6 +19,16 @@ jobs:
   include:
     - stage: build_publish
       env:
+        - IMAGE_NAME: go1
+        - GO_VERSION: 1.9.3
+      script:
+        - ./.scripts/.build.sh "${DH_REPO}" "${IMAGE_NAME}" "./go";
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            COMMIT_MESSAGE="${TRAVIS_COMMIT_MESSAGE}" ./go/.publish.sh "${DH_REPO}:${IMAGE_NAME}";
+          fi;
+    - stage: build_publish
+      env:
         - IMAGE_NAME: node4
         - NODE_MAJOR_VERSION: 4
       script:

@@ -8,14 +8,29 @@ Daily builds are run against these images and automatically sent to our DockerHu
 
 https://hub.docker.com/r/govtechsg/base-images
 
+## Methodology
+All runtimes are built from official sources using the methods documented in the runtimes' official documentation.
+
 ## Catalog (Alphabetical Order)
 
+- Go (`go`)
 - Node.js (`node*`)
 
 ### Release Notes
 The images are found in the [DockerHub registry](https://hub.docker.com/r/govtechsg/base-images), and the names of the different types of images are added as a tag. For example given a type of image called `xyz`, it will be available under the repository URL `govtechsg/base-images:xyz-latest`. Specific versions can be found in the [DockerHub Tags page](https://hub.docker.com/r/govtechsg/base-images/tags/)
 
 ### Usage/Description
+
+#### Go (`go`)
+Canonical Tag: `go-<GO_VERSION>`  
+Latest URL: `govtechsg/base-images:go-latest`
+
+##### Notes
+Generally compiled Go binary.
+
+Available runtime commands:
+
+- `go`
 
 #### Node (`node*`)
 Canonical Tag: `node*-<NODE_VERSION>`  
@@ -30,6 +45,12 @@ The `*` is available for versions of Node which satisfy the following criteria:
 Generally compiled Node.js binary that comes with Yarn.
 
 General compilation allows for debugging and performance profiling.
+
+Available runtime commands:
+
+- `npm`
+- `node`
+- `yarn`
 
 ## Other Uses
 Images specified here can be uploaded to other repositories if you so wish. The commands are:
