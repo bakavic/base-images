@@ -8,6 +8,7 @@ ENV APK_TO_INSTALL="bash curl git gcc g++ make linux-headers binutils-gold gnupg
     GO_REPO_URL="https://go.googlesource.com/go" \
     GO_VERSION="go1.9.3" \
     GO_VERSION_LAST_C_TOOLCHAIN="go1.4" \
+    GOPATH="/usr/lib/go" \
     GOROOT_BOOTSTRAP="/tmp/go1.4" \
     PATHS_TO_REMOVE="\
       ${INSTALL_PATH}/* \
@@ -29,9 +30,9 @@ RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
     && cd /tmp/go/src \
     && git checkout ${GO_VERSION} \
     && ./make.bash \
-    && mv /tmp/go /usr/lib/go \
-    && ln -s /usr/lib/go/bin/go ${SYSTEM_BIN_PATH} \
-    && ln -s /usr/lib/go/bin/gofmt ${SYSTEM_BIN_PATH} \
+    && mv /tmp/go ${GOPATH} \
+    && ln -s ${GOPATH}/bin/go ${SYSTEM_BIN_PATH} \
+    && ln -s ${GOPATH}/bin/gofmt ${SYSTEM_BIN_PATH} \
     && go get -u -v github.com/nsf/gocode \
     && go get -u -v github.com/rogpeppe/gopkgs \
     && go get -u -v github.com/ramya-rao-a/go-outline \
