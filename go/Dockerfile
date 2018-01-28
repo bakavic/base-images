@@ -8,13 +8,10 @@ ENV APK_TO_INSTALL="bash curl git gcc g++ make linux-headers binutils-gold gnupg
     GO_REPO_URL="https://go.googlesource.com/go" \
     GO_VERSION="go1.9.3" \
     GO_VERSION_LAST_C_TOOLCHAIN="go1.4" \
-    GOPATH="/usr/lib/go" \
-    GOROOT_BOOTSTRAP="/tmp/go1.4" \
+    GOROOT_BOOTSTRAP="/usr/lib/go" \
+    GOPATH="/app" \
     PATHS_TO_REMOVE="\
-      ${INSTALL_PATH}/* \
-      /root/.gnupg/* \
-      /root/.node-gyp/* \
-      /root/.npm/* \
+      /tmp/* \
       /usr/include/* \
       /usr/share/man/* \
       /var/cache/apk/*" \
@@ -28,22 +25,36 @@ RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
     && git checkout release-branch.${GO_VERSION_LAST_C_TOOLCHAIN} \
     && ./make.bash \
     && cd /tmp/go/src \
+    && mv /tmp/go1.4 ${GOROOT_BOOTSTRAP} \
     && git checkout ${GO_VERSION} \
     && ./make.bash \
-    && mv /tmp/go ${GOPATH} \
-    && ln -s ${GOPATH}/bin/go ${SYSTEM_BIN_PATH} \
-    && ln -s ${GOPATH}/bin/gofmt ${SYSTEM_BIN_PATH} \
-    && go get -u -v github.com/nsf/gocode \
-    && go get -u -v github.com/rogpeppe/gopkgs \
-    && go get -u -v github.com/ramya-rao-a/go-outline \
-    && go get -u -v github.com/acroca/go-symbols \
-    && go get -u -v golang.org/x/tools/cmd/guru \
+    && rm -rf ${GOROOT_BOOTSTRAP} \
+    && mv /tmp/go ${GOROOT_BOOTSTRAP} \
+    && ln -s ${GOROOT_BOOTSTRAP}/bin/go ${SYSTEM_BIN_PATH} \
+    && ln -s ${GOROOT_BOOTSTRAP}/bin/gofmt ${SYSTEM_BIN_PATH} \
+    && go get -u -v golang.org/x/tools/cmd/callgraph \
+    && go get -u -v golang.org/x/tools/cmd/cover \
     && go get -u -v golang.org/x/tools/cmd/gorename \
+    && go get -u -v golang.org/x/tools/cmd/guru \
+    && go get -u -v golang.org/x/tools/cmd/godoc \
+    && go get -u -v golang.org/x/tools/cmd/goimports \
+    && go get -u -v golang.org/x/tools/cmd/gorename \
+    && go get -u -v golang.org/x/tools/cmd/stress \
+    && go get -u -v golang.org/x/tools/go/ast/astutil \
+    && go get -u -v golang.org/x/tools/go/buildutil \
+    && go get -u -v golang.org/x/tools/go/callgraph \
+    && go get -u -v golang.org/x/tools/go/loader \
+    && go get -u -v golang.org/x/tools/go/pointer \
+    && go get -u -v golang.org/x/tools/go/ssa \
+    && go get -u -v golang.org/x/tools/godoc/analysis \
+    && go get -u -v golang.org/x/tools/godoc/redirect \
+    && go get -u -v golang.org/x/tools/godoc/static \
+    && go get -u -v golang.org/x/tools/godoc/util \
+    && go get -u -v golang.org/x/tools/refactor/satisfy \
     && go get -u -v sourcegraph.com/sqs/goreturns \
     && go get -u -v github.com/golang/lint/golint \
     && chmod +x /usr/bin/version-info \
     && apk del ${APK_TO_REMOVE} \
-    && rm -rf ${PATHS_TO_REMOVE} \
-    && mkdir /app
-WORKDIR /app
+    && rm -rf ${PATHS_TO_REMOVE}
+WORKDIR ${GOPATH}
 USER root
