@@ -22,8 +22,8 @@ RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
     && mkdir -p /app \
     && mkdir -p /app/mappings \
     && mkdir -p /app/__files \
-    && mv /tmp/* /app/ \
-    && mv /tmp/.* /app/ \
+    && cp /tmp/* /app/ \
+    && cp /tmp/.* /app/ \
     && apk del ${APK_TO_REMOVE} \
     && rm -rf ${PATHS_TO_REMOVE} \
     && chmod +x /usr/bin/version-info /usr/bin/start
