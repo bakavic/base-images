@@ -20,6 +20,7 @@ RUN apk add --update --upgrade --no-cache ${APK_TO_INSTALL} \
     && curl -sSL -o ./wiremock.jar "https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/$(cat ./.wiremock_version)/wiremock-standalone-$(cat ./.wiremock_version).jar" \
     && mkdir -p /app \
     && cp -r /tmp/* /app \
+    && cp /tmp/.wiremock_version /app/.wiremock_version \
     && apk del ${APK_TO_REMOVE} \
     && rm -rf ${PATHS_TO_REMOVE} \
     && chmod +x /usr/bin/version-info /usr/bin/start
