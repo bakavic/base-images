@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CURR_DIR=$(dirname $0);
 IMAGE_URL=$1
 IMAGE_TAG=$2;
