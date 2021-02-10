@@ -1,6 +1,6 @@
-ARG ALPINE_VERSION="3.8.4"
+ARG ALPINE_VERSION="3.12.1"
 FROM alpine:${ALPINE_VERSION}
-LABEL maintainer="dev@joeir.net" \
+LABEL maintainer="Ryan <ryan_goh@tech-gov-sg>" \
       version="1.0.0" \
       description="A minimal Go base image to build Go applications with."
 ARG GO_VERSION="go1.9.3"
