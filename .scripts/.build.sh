@@ -27,8 +27,9 @@ if [ "${BUILD_CONTEXT}" = "" ]; then
   BUILD_CONTEXT="${CURR_DIR}/../${IMAGE_TAG}/Dockerfile";
 fi;
 
-docker build \
+docker buildx \
   ${ADDITIONAL_BUILD_ARGS} \
+  --platform linux/arm64,linux/amd64
   --file ${BUILD_CONTEXT}/Dockerfile \
   --tag "${NEXT_TAG}" \
   ${BUILD_CONTEXT};
